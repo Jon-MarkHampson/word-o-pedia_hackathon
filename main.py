@@ -6,6 +6,7 @@ import terminal_timer
 import leader_board
 import grid_style
 import time
+import game
 
 def main():
     """ Main function to run the game """
@@ -71,8 +72,12 @@ def main():
         
         # Ask for user input. Check if the user wants a hint
         want_hint = input("\nWould you like a hint? (Y / N) - Or enter your guess now: ").strip().lower()
+            
         # Always get the first word in the remaining game_words list
-        if want_hint in {"y", "yes", "yeah"}: 
+        if want_hint in game_words:
+            game_words, game_grid, found_words_counter, colours_counter = game.check_if_word_in_game_words(want_hint, game_words, game_grid, words_positions, found_words_counter, colours_counter)
+            continue
+        elif want_hint in {"y", "yes", "yeah"}: 
             
             # Get a hint about the word
             if hint_counter == 0:
@@ -92,18 +97,20 @@ def main():
             
             print(f"\n\t\t{revealed_part}\n")
             print(f"\n{hint}\n")
+                        
             
-            
-        user_guess = input("\nEnter a found word (Or type 'Hint' for another hint): ").strip().lower()
+        user_guess = input("\nEnter a found word (Or type 'Hint' for a hint): ").strip().lower()
         if user_guess in game_words:
-            print(f"\n{config.funny_positive_responses[found_words_counter]} You found {config.COLOURS_LIST[colours_counter]}{user_guess.upper()}{config.Style.RESET_ALL}\n")
-            grid = grid_utils.update_game_grid(game_grid, user_guess, colours_counter, words_positions)
-            colours_counter += 1 # Update colour counter so next guessed word gets a different colour
-            if colours_counter == len(config.COLOURS_LIST):
-                colours_counter = 0
-            found_words_counter += 1  # Update the found words counter
-            hint_counter = 0  # Update which word to provide hints for
-            game_words.remove(user_guess)
+            game_words, game_grid, found_words_counter, colours_counter = game.check_if_word_in_game_words(user_guess, game_words, game_grid, words_positions, found_words_counter, colours_counter)
+
+            # print(f"\n{config.funny_positive_responses[found_words_counter]} You found {config.COLOURS_LIST[colours_counter]}{user_guess.upper()}{config.Style.RESET_ALL}\n")
+            # grid = grid_utils.update_game_grid(game_grid, user_guess, colours_counter, words_positions)
+            # colours_counter += 1 # Update colour counter so next guessed word gets a different colour
+            # if colours_counter == len(config.COLOURS_LIST):
+            #     colours_counter = 0
+            # found_words_counter += 1  # Update the found words counter
+            # hint_counter = 0  # Update which word to provide hints for
+            # game_words.remove(user_guess)
         elif user_guess == "hint":
                 continue
         else:

@@ -89,7 +89,7 @@ def initialise_game_grid(grid_size, words):
     """Initialises the game grid with words placed randomly."""
     grid = fill_grid_with_placeholders(grid_size)
     grid, words_positions = place_words_on_grid(grid, words)
-    grid = fill_placeholders_with_random_letters(grid)
+    # grid = fill_placeholders_with_random_letters(grid)
     return grid, words_positions
 
 def update_game_grid(grid, word, colours_counter, words_positions):
