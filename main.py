@@ -4,6 +4,7 @@ import config
 import hints
 import terminal_timer
 import leader_board
+from leader_board import Leaderboard
 import grid_style
 import time
 import game
@@ -21,7 +22,8 @@ def main():
     #Initialise an instance of the SimpleTimer
     timer = terminal_timer.SimpleTimer()
     timer.start()
-    
+
+
     #Print HEADER / ASCII ART??
 
     #Print game info/ how to play ??
@@ -116,19 +118,11 @@ def main():
         else:
             print(f"\n{config.funny_negative_responses_prefix[hint_counter]} {config.Fore.RED}{user_guess}{config.Style.RESET_ALL} isn't one of the words we are looking for. {config.funny_negative_responses_suffix[hint_counter]}\n")
 
-
+    # Stop timer
     timer.stop()
     
     # Display the final grid
     grid_utils.print_grid(game_grid)
-    # final_time, min, sec = timer.return_elapsed_time()
-
-    # total_time = final_time + penalty_counter
-    # minutes = int(total_time // 60)
-    # seconds = int(total_time % 60)  
-    
-    #End the game and stop the timer
-    # timer.stop()
 
     # Calculate final time including penalty
     total_time = time.time() - timer.start_time + penalty_time
@@ -146,6 +140,7 @@ def main():
     
     #add username and final time to high score leaderboard?
     leader_board.update_leaderboard(player_name, diff_string, total_time)
+    leader_board.display_leaderboard()
     
     print(f"\nThank you {player_name} for playing WORD-O-PEDIA!\n")
     
