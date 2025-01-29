@@ -3,8 +3,11 @@ import config
 def set_difficulty():
 # Print / Select Difficulty
     while True:
-        print("\n1. Easy\n2. Medium\n3. Hard")
-        choice = input("\nPlease choose your level of Difficulty (1, 2, 3): ").strip()
+        print(f"""
+{config.Fore.GREEN}1. Easy
+{config.Fore.BLUE}2. Medium
+{config.Fore.RED}3. Hard{config.Style.RESET_ALL}""")
+        choice = input(f"\nPlease choose your level of Difficulty ({config.Fore.GREEN}1{config.Style.RESET_ALL} /{config.Fore.BLUE} 2 {config.Style.RESET_ALL}/ {config.Fore.RED}3{config.Style.RESET_ALL}): ").strip()
         
         # Use string keys for matching
         difficulty = {
@@ -15,11 +18,11 @@ def set_difficulty():
         
         if difficulty:
             # If valid choice, break the loop
-            grid_size, num_words = difficulty  # Unpack the tuple (e.g., (10, 7))
-            print(f"\nYou selected {choice}: Grid Size = {grid_size}, Number of Words = {num_words}")
+            grid_size, num_words, diff_string = difficulty  # Unpack the tuple (e.g., (10, 7))
+            print(f"\nYou selected {config.COLOURS_LIST[int(choice)]}{diff_string}{config.Style.RESET_ALL}: Grid Size = {config.Fore.BLUE}{grid_size}{config.Style.RESET_ALL}, Number of Words = {config.Fore.MAGENTA}{num_words}{config.Style.RESET_ALL}")
             break
         else:
             # Invalid input, prompt again
-            print("\nInvalid choice. Please select 1, 2, or 3.")
+            print(f"\nInvalid choice. Please select ({config.Fore.GREEN}1{config.Style.RESET_ALL} /{config.Fore.BLUE} 2 {config.Style.RESET_ALL}/ {config.Fore.RED}3{config.Style.RESET_ALL})")
             
-    return grid_size, num_words
+    return difficulty

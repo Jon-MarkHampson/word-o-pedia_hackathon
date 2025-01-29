@@ -6,6 +6,7 @@ import terminal_timer
 from leader_board import Leaderboard
 import time
 import game
+import difficulty_level
 import print_game_info
 
 def main():
@@ -13,16 +14,18 @@ def main():
     
     leader_board = Leaderboard()
     
-    #Initialise counters
-    colours_counter = 0
-    found_words_counter = 0
-    hint_counter = 0
-    penalty_counter = 0
-    penalty_time = 15
+    while True:
+        
+        #Initialise counters
+        colours_counter = 0
+        found_words_counter = 0
+        hint_counter = 0
+        penalty_counter = 0
+        penalty_time = 15
 
-    #Initialise an instance of the SimpleTimer
-    timer = terminal_timer.SimpleTimer()
-    timer.start()
+        #Initialise an instance of the SimpleTimer
+        timer = terminal_timer.SimpleTimer()
+        timer.start()
 
     print_game_info.print_game_info()
     
@@ -30,18 +33,19 @@ def main():
     # Prompt user for their name
     player_name = input("\nPlease enter your name: ").strip() # Need use this to add to leaderboard
 
-    # Print the leaderboard?
+    leader_board.display_leaderboard()
     
-    #Print / Select Difficulty
-    print("\n1. Easy\n2. Medium\n3. Hard")
-    choice = input(f"\nPlease choose your level of Difficulty (1, 2, 3): ").strip() 
-    difficulty = {
-        "1": config.EASY,
-        "2": config.MEDIUM,
-        "3": config.HARD
-    }.get(choice)
+    difficulty = difficulty_level.set_difficulty()
+    # #Print / Select Difficulty
+    # print("\n1. Easy\n2. Medium\n3. Hard")
+    # choice = input(f"\nPlease choose your level of Difficulty (1, 2, 3): ").strip() 
+    # difficulty = {
+    #     "1": config.EASY,
+    #     "2": config.MEDIUM,
+    #     "3": config.HARD
+    # }.get(choice)
 
-    grid_size, num_words , diff_string = difficulty # eg difficulty = (10, 7, EASY) because congfig.MEDIUM = (10, 7, EASY)
+    grid_size, num_words, diff_string = difficulty # eg difficulty = (10, 7, EASY) because congfig.MEDIUM = (10, 7, EASY)
 
     # Prompt user for a topic
     user_topic = word_utils.get_game_topic()
@@ -101,35 +105,41 @@ def main():
         else:
             print(f"\n{config.funny_negative_responses_prefix[hint_counter]} {config.Fore.RED}{user_guess_word}{config.Style.RESET_ALL} isn't one of the words we are looking for. {config.funny_negative_responses_suffix[hint_counter]}\n")
 
-    # Stop timer
-    timer.stop()
+        # Stop timer
+        timer.stop()
+        
+        # Display the final grid
+        grid_utils.print_grid(game_grid)
+
+        # Calculate final time including penalty
+        total_time = time.time() - timer.start_time + penalty_time
+        minutes = int(total_time // 60)
+        seconds = int(total_time % 60)
+
+        # Display the results
+        print("\nGAME OVER!")
+        
+        print("\nALL WORDS FOUND!\n")
+
+        print(f"\nTotal time with penalty: {minutes:02d}:{seconds:02d} (Penalty: {config.Fore.RED}{penalty_counter}{config.Style.RESET_ALL} seconds)")
+
+        print(f"\nYou found all {config.Fore.CYAN}{num_words}{config.Style.RESET_ALL} words in: {config.Fore.YELLOW}{minutes}:{seconds}{config.Style.RESET_ALL}")
+        
+        #add username and final time to high score leaderboard?
+        leader_board.update_leaderboard(player_name, diff_string, total_time)
+        leader_board.display_leaderboard()
+        
+        print(f"\nThank you {config.Fore.GREEN}{player_name}{config.Style.RESET_ALL} for playing {config.Fore.CYAN}WORD-O-PEDIA!{config.Style.RESET_ALL}\n")
+        
+        print("Here is a summary about the words we found and how they relate to the topic you chose:\n")
+
+        end_game = input("Would you like to play again? (Y / N): ").strip().lower()
+        if end_game in {"y", "yes", "yeah", "yep"}:
+            continue
+        else:
+            print("\nGoodbye!")
+            return
     
-    # Display the final grid
-    grid_utils.print_grid(game_grid)
-
-    # Calculate final time including penalty
-    total_time = time.time() - timer.start_time + penalty_time
-    minutes = int(total_time // 60)
-    seconds = int(total_time % 60)
-
-    # Display the results
-    print("\nGAME OVER!")
-    
-    print("\nALL WORDS FOUND!\n")
-
-    print(f"\nTotal time with penalty: {minutes:02d}:{seconds:02d} (Penalty: {config.Fore.RED}{penalty_counter}{config.Style.RESET_ALL} seconds)")
-
-    print(f"\nYou found all {config.Fore.CYAN}{num_words}{config.Style.RESET_ALL} words in: {config.Fore.YELLOW}{minutes}:{seconds}{config.Style.RESET_ALL}")
-    
-    #add username and final time to high score leaderboard?
-    leader_board.update_leaderboard(player_name, diff_string, total_time)
-    leader_board.display_leaderboard()
-    
-    print(f"\nThank you {player_name} for playing WORD-O-PEDIA!\n")
-    
-    print("Heres is a summary about the words we found and how they relate to the topic you chose:\n")
-
-
 
 if __name__ == "__main__":
     main()

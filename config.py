@@ -12,7 +12,7 @@ HARD = (15, 10, "HARD")
 WIKI_LANGUAGE = "en"
 
 # Colour constants
-COLOURS_LIST = [Fore.RED, Fore.GREEN, Fore.YELLOW, Fore.BLUE, Fore.MAGENTA, Fore.CYAN]
+COLOURS_LIST = [Fore.MAGENTA, Fore.GREEN, Fore.BLUE, Fore.RED, Fore.CYAN, Fore.LIGHTMAGENTA_EX, Fore.LIGHTGREEN_EX, Fore.LIGHTBLUE_EX, Fore.LIGHTRED_EX, Fore.LIGHTYELLOW_EX, Fore.LIGHTCYAN_EX]
 
 # Funny responses for found words
 funny_positive_responses = [

@@ -48,7 +48,7 @@ def filter_game_words(links, grid_size, num_words):
         return []
     
     step = max(1, len(valid_links) // num_words)  # Ensure step is at least 1
-    randomise_list_start = random.randint(0, step - 1)  # Randomise the starting point
+    randomise_list_start = random.randint(0, step - 2)  # Randomise the starting point
     # print(f"DEBUG Randomised list start: {randomise_list_start}")
     return valid_links[randomise_list_start::step][:num_words]
 
