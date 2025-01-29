@@ -60,6 +60,8 @@ class Leaderboard:
                         f"from {int(old_minutes):02d}:{int(old_seconds):02d} to "
                         f"{int(new_minutes):02d}:{int(new_seconds):02d}!{config.Style.RESET_ALL}")
 
+                    # Sort before save
+                    self.leaderboard[difficulty].sort(key=lambda x: x["time"])
                     self._save_leaderboard()  # Save only when updating
                 else:
                     print(
@@ -77,6 +79,8 @@ class Leaderboard:
             f"\n{config.Fore.CYAN}Added {name} to the leaderboard for {difficulty} "
             f"with {int(new_minutes):02d}:{int(new_seconds):02d}{config.Style.RESET_ALL}")
 
+        # Sort before save
+        self.leaderboard[difficulty].sort(key=lambda x: x["time"])
         self._save_leaderboard()
 
     def display_leaderboard(self):
