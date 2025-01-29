@@ -6,6 +6,7 @@ import terminal_timer
 from leader_board import Leaderboard
 import time
 import game
+import print_game_info
 
 def main():
     """ Main function to run the game """
@@ -23,10 +24,7 @@ def main():
     timer = terminal_timer.SimpleTimer()
     timer.start()
 
-
-    #Print HEADER / ASCII ART??
-
-    #Print game info/ how to play ??
+    print_game_info.print_game_info()
     
     
     # Prompt user for their name
