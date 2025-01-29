@@ -1,6 +1,8 @@
 import config
 
 def set_difficulty():
+    """ Set the difficulty level of the game """
+    
     # Print / Select Difficulty
     print("Difficulty Levels:")
     while True:

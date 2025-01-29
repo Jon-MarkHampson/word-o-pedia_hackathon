@@ -7,6 +7,7 @@ import wikipediaapi
 import random
 
 def get_game_topic():
+    """Prompt user for a topic for the word search."""
     while True:
         # Prompt user for choice
         choice = input("\nWould you like a random topic or to type your own? (R for Random, T for Topic): ").strip().lower()
