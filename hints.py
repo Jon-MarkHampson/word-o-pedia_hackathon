@@ -3,6 +3,7 @@ import openai
 import wikipediaapi
 import textwrap
 import config
+import mask_word
 
 from dotenv import load_dotenv
 
@@ -21,7 +22,7 @@ def get_api_key():
     return openai.api_key
 
 
-def get_hint_about_word(word, hint_counter):
+def get_hint_about_word(word):
     """
     Generate a hint (brief summary) using OpenAI's new chat interface,
     and reveal letters of the first word incrementally based on hint_counter.
@@ -42,39 +43,47 @@ def get_hint_about_word(word, hint_counter):
 
     input_string = page.summary
 
-    try:
-        response = openai.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {
-                    "role": "system",
-                    "content": "You are an assistant that summarizes text very briefly."
-                },
-                {
-                    "role": "user",
-                    "content": f"Summarize this text in one sentence: {input_string}. The response must start with the word {word}. Never put puctuation after the word {word}."
-                }
-            ],
-        )
+    while True:
+        try:
+            response = openai.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {
+                        "role": "system",
+                        "content": "You are an assistant that summarizes a topic concisely."
+                    },
+                    {
+                        "role": "user",
+                        "content": f"Summarize this text in one sentence: {input_string}. The response must start with the word {word}. Never put punctuation after the word {word}.",
+                        "temperature": 0.1
+                    }
+                ],
+            )
 
-        # Grab the summary text
-        summary = response.choices[0].message.content.strip()
-        
-        # print("DEBUG: ", summary)
+            # Grab the summary text
+            chat_gtp_summary = response.choices[0].message.content.strip()
+            
+            
+            # print("DEBUG: ", summary)
 
-        # Split summary at first_word
+            # Split summary at first_word
+            word_check = chat_gtp_summary.split(" ", 1)[0].lower()
+            hint = chat_gtp_summary.split(" ", 1)[1] if " " in chat_gtp_summary else ""
+            word = word.lower() # Ensure word is lowercase
+            
+            if word_check == word:
+                
+                # print(f"DEBUG: Word_check, Word : {word_check} {word}")
+                # print("DEBUG: Hint: ", hint)                
+                # Wrap text to 50 chars
+                wrapped_hint = textwrap.fill(hint, width=70)
+                # print("DEBUG wrapped: ", wrapped_hint)
+                masked_summary = mask_word.mask_word_in_text(wrapped_hint, word)
 
-        hint = summary.split(" ", 1)[1] if " " in summary else ""
-
-        # print("DEBUG: ", hint)
-        
-        # Wrap text to 50 chars
-        wrapped_hint = textwrap.fill(hint, width=50)
-        # print("DEBUG wrapped: ", wrapped_hint)
-        return wrapped_hint
-    
-    except Exception as e:
-        return f"Sorry, couldn't generate a hint for the word because: {str(e)}"
+                return masked_summary
+                    
+        except Exception as e:
+            return f"Sorry, couldn't generate a hint for the word because: {str(e)}"
 
 
 def reveal_the_word(word, hint_counter):
@@ -102,4 +111,4 @@ def reveal_the_word(word, hint_counter):
             # Return the combined revealed word
             return combined_word
 
-
+# print(get_hint_about_word("molecule"))

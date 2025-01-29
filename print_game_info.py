@@ -44,11 +44,12 @@ def print_game_info():
     
         GAME DESCRIPTION:
     
-    * This is a word search game
+    * This is a word search game based on Wikipedia which helps you learn about various topics as you play :)
     * Words are taken from a Wikipedia article on a topic of your choice or randomly
     * A character matrix hides the words
     * You can choose the size of matrix (the level of difficulty)
     * Correctly found words will be color highlighted
+    * The words can be displyed either HORIZONTAL, VERTICAL or BACKWARDS (for both) 
     * Leaderboard: all words found in fastest time
     
     
@@ -56,7 +57,8 @@ def print_game_info():
     
     * Keep on guessing and typing words until you find all the correct words
     * Choice of getting a hint
-    * Optional timer for competitive players
+    * You have a timer - to make it more competitive ;)
+    * You get a 15 sec penalty for every hint
     * Game stops when all words are found
 """)
     

@@ -1,33 +1,33 @@
 leaderboard = {}
 
-def update_leaderboard(name, level, passed_time):
+def update_leaderboard(name, difficulty, final_time):
     """
     Updates the in-memory leaderboard with a new entry or replaces an existing one.
     """
-    # Initialize the level if not already in the leaderboard
-    if level not in leaderboard:
-        leaderboard[level] = []
+    # Initialize the difficulty if not already in the leaderboard
+    if difficulty not in leaderboard:
+        leaderboard[difficulty] = []
 
-    # Check if the name already exists in the level
-    for entry in leaderboard[level]:
+    # Check if the name already exists in the difficulty
+    for entry in leaderboard[difficulty]:
         if entry["name"] == name:
             # Update the score if the new time is better
-            if passed_time < entry["time"]:
-                entry["time"] = passed_time
-                print(f"\nUpdated {name}'s score for {level} to {passed_time} seconds!")
+            if final_time < entry["time"]:
+                entry["time"] = final_time
+                print(f"\nUpdated {name}'s score for {difficulty} to {final_time} seconds!")
             else:
-                print(f"\n{name} already has a better time for {level}: {entry['time']} seconds.")
+                print(f"\n{name} already has a better time for {difficulty}: {entry['time']} seconds.")
             break
     else:
         # Add a new entry if the name is not found
-        leaderboard[level].append({
+        leaderboard[difficulty].append({
             "name": name,
-            "time": passed_time
+            "time": final_time
         })
-        print(f"\nAdded {name} to the leaderboard for {level} with {passed_time} seconds.")
+        print(f"\nAdded {name} to the leaderboard for {difficulty} with {final_time} seconds.")
 
-    # Sort the leaderboard for the level by time
-    leaderboard[level].sort(key=lambda x: x["time"])
+    # Sort the leaderboard for the difficulty by time
+    leaderboard[difficulty].sort(key=lambda x: x["time"])
 
 
 def display_leaderboard():
@@ -39,8 +39,8 @@ def display_leaderboard():
         return
 
     print("\n--- Leaderboard ---")
-    for level, scores in leaderboard.items():
-        print(f"\nLevel: {level}")
+    for difficulty, scores in leaderboard.items():
+        print(f"\ndifficulty: {difficulty}")
         for rank, entry in enumerate(scores, start=1):
             print(f"  {rank}. {entry['name']} - {entry['time']} seconds")
     print("\n")

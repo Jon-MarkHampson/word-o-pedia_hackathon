@@ -40,7 +40,7 @@ def main():
         "3": config.HARD
     }.get(choice)
 
-    grid_size, num_words = difficulty # eg difficulty = (10, 7) because congfig.MEDIUM = (10, 7)
+    grid_size, num_words , diff_string = difficulty # eg difficulty = (10, 7, EASY) because congfig.MEDIUM = (10, 7, EASY)
 
     # Prompt user for a topic
     user_topic = word_utils.get_game_topic()
@@ -75,7 +75,7 @@ def main():
             
             # Get a hint about the word
             if hint_counter == 0:
-                hint = hints.get_hint_about_word(game_words[0], hint_counter)
+                hint = hints.get_hint_about_word(game_words[0])
             
             # Update hint counter and penalty counter 
             hint_counter += 1
@@ -95,7 +95,7 @@ def main():
             
         user_guess = input("\nEnter a found word: ").strip().lower()
         if user_guess in game_words:
-            print("\nWHOOOOOOOOO! You found " + config.COLOURS_LIST[colours_counter] + user_guess + config.Style.RESET_ALL + "\n")
+            print("\nWHOOOOOOOOO! You found " + config.COLOURS_LIST[colours_counter] + user_guess.upper() + config.Style.RESET_ALL + "\n")
             grid = grid_utils.update_game_grid(game_grid, user_guess, colours_counter, words_positions)
             colours_counter += 1  # Update colour counter so next guessed word gets a different colour
             found_words_counter += 1  # Update the found words counter
@@ -106,6 +106,8 @@ def main():
 
 
     timer.stop()
+    
+    # Display the final grid
     grid_utils.print_grid(game_grid)
     # final_time, min, sec = timer.return_elapsed_time()
 
@@ -122,11 +124,20 @@ def main():
     seconds = int(total_time % 60)
 
     # Display the results
-    print("\nGame over! All words found.")
-    print(f"Total time with penalty: {minutes:02d}:{seconds:02d} (Penalty: {penalty_time} seconds)")
+    print("\nGAME OVER!")
+    
+    print("\nALL WORDS FOUND!\n")
 
-    print(f"You found all {len(num_words)} words in: {minutes}:{seconds} ")
+    print(f"\nTotal time with penalty: {minutes:02d}:{seconds:02d} (Penalty: {config.Fore.RED}{penalty_counter}{config.Style.RESET_ALL} seconds)")
+
+    print(f"\nYou found all {config.Fore.CYAN}{num_words}{config.Style.RESET_ALL} words in: {minutes}:{seconds}")
+    
     #add username and final time to high score leaderboard?
+    leader_board.update_leaderboard(player_name, diff_string, total_time)
+    
+    print(f"\nThank you {player_name} for playing WORD-O-PEDIA!\n")
+    
+
 
 
 

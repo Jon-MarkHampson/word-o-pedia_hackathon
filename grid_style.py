@@ -7,7 +7,7 @@ def print_grid(grid):
     print("\n")
     for row in grid:
         styled_row = "\t".join(
-            f"{Back.BLACK}{Fore.CYAN}{cell}{Style.RESET_ALL}" for cell in row
+            f"{Fore.GREEN}{cell}{Style.RESET_ALL}" for cell in row
         )
         print(styled_row)
         print("\n")  # Add spacing for better readability

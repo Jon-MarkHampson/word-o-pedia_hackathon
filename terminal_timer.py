@@ -42,7 +42,7 @@ class SimpleTimer():
         elapsed_time = time.time() - self.start_time
         minutes = int(elapsed_time // 60)
         seconds = int(elapsed_time % 60)
-        print(f'Elapsed Time: ' + config.Fore.RED + f"{minutes:02d}:{seconds:02d}" + config.Style.RESET_ALL)
+        print(f"Elapsed Time: {config.Fore.RED}{minutes:02d}:{seconds:02d}{config.Style.RESET_ALL}")
 
 
 # # The game function JUST an example to test
