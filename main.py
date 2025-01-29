@@ -59,17 +59,18 @@ def main():
     game_grid, words_positions = grid_utils.initialise_game_grid(grid_size, game_words)
     
     # print(words_positions)
-    print("\nHere is your WORD-O-PEDIA - GOOD LUCK!:\n")
+    print(f"\nHere is your {config.Fore.BLUE}WORD-O-PEDIA{config.Style.RESET_ALL} - GOOD LUCK {config.Fore.GREEN}{player_name}{config.Style.RESET_ALL}!:\n")
     
     while found_words_counter < num_words:
         # print("\nHere is your game grid:\n")
         grid_utils.print_grid(game_grid)
         #Display current elapsed time
+        print(f"You have {config.Fore.MAGENTA}{num_words - found_words_counter}{config.Style.RESET_ALL} words left to find.\n")
         timer.display()
-        print("Penalty Time: " + config.Fore.RED + f"{penalty_counter}" + config.Style.RESET_ALL + " seconds")
+        print(f"Penalty Time: {config.Fore.RED}{penalty_counter}{config.Style.RESET_ALL} seconds")
         
         # Ask for user input. Check if the user wants a hint
-        want_hint = input("\nWould you like a hint? (Y / N): ").strip().lower()
+        want_hint = input("\nWould you like a hint? (Y / N) - Or enter your guess now: ").strip().lower()
         # Always get the first word in the remaining game_words list
         if want_hint in {"y", "yes", "yeah"}: 
             
@@ -81,7 +82,7 @@ def main():
             hint_counter += 1
             penalty_counter += penalty_time
             
-            print(f"\nPENALTY: {config.Fore.RED + str(penalty_counter) + config.Style.RESET_ALL} seconds added to your time.")
+            print(f"\nPENALTY: {config.Fore.RED}{penalty_counter}{config.Style.RESET_ALL} seconds added to your time.")
             
             # print("\nDEBUG: ", games_words[0])
             print(f"\nYou are looking for a word with {len(game_words[0])} characters.\n")
@@ -93,16 +94,20 @@ def main():
             print(f"\n{hint}\n")
             
             
-        user_guess = input("\nEnter a found word: ").strip().lower()
+        user_guess = input("\nEnter a found word (Or type 'Hint' for another hint): ").strip().lower()
         if user_guess in game_words:
-            print("\nWHOOOOOOOOO! You found " + config.COLOURS_LIST[colours_counter] + user_guess.upper() + config.Style.RESET_ALL + "\n")
+            print(f"\n{config.funny_positive_responses[found_words_counter]} You found {config.COLOURS_LIST[colours_counter]}{user_guess.upper()}{config.Style.RESET_ALL}\n")
             grid = grid_utils.update_game_grid(game_grid, user_guess, colours_counter, words_positions)
-            colours_counter += 1  # Update colour counter so next guessed word gets a different colour
+            colours_counter += 1 # Update colour counter so next guessed word gets a different colour
+            if colours_counter == len(config.COLOURS_LIST):
+                colours_counter = 0
             found_words_counter += 1  # Update the found words counter
             hint_counter = 0  # Update which word to provide hints for
             game_words.remove(user_guess)
+        elif user_guess == "hint":
+                continue
         else:
-            print(f"\n{config.Fore.RED + user_guess + config.Style.RESET_ALL} isn't one of the words we are looking for.\n")
+            print(f"\n{config.funny_negative_responses_prefix[hint_counter]} {config.Fore.RED}{user_guess}{config.Style.RESET_ALL} isn't one of the words we are looking for. {config.funny_negative_responses_suffix[hint_counter]}\n")
 
 
     timer.stop()
@@ -130,14 +135,14 @@ def main():
 
     print(f"\nTotal time with penalty: {minutes:02d}:{seconds:02d} (Penalty: {config.Fore.RED}{penalty_counter}{config.Style.RESET_ALL} seconds)")
 
-    print(f"\nYou found all {config.Fore.CYAN}{num_words}{config.Style.RESET_ALL} words in: {minutes}:{seconds}")
+    print(f"\nYou found all {config.Fore.CYAN}{num_words}{config.Style.RESET_ALL} words in: {config.Fore.YELLOW}{minutes}:{seconds}{config.Style.RESET_ALL}")
     
     #add username and final time to high score leaderboard?
     leader_board.update_leaderboard(player_name, diff_string, total_time)
     
     print(f"\nThank you {player_name} for playing WORD-O-PEDIA!\n")
     
-
+    print("Heres is a summary about the words we found and how they relate to the topic you chose:\n")
 
 
 

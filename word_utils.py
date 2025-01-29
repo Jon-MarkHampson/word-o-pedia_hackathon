@@ -16,7 +16,7 @@ def get_game_topic():
 
         if choice == "r":
             # Random topic selection
-            random_topics = ["Space Exploration", "Artificial Intelligence", "Music", "Quantum Physics", "Python (programming language)", "Snakes", "Guido van Rossum", "Monty Python"] # Changed "Music Genres" to "Music" ADD MORE TOPICS
+            random_topics = ["Space Exploration", "Artificial Intelligence", "Music", "Quantum Physics", "Olympic Sports", "Snakes", "Guido van Rossum", "Monty Python"] # Changed "Music Genres" to "Music" ADD MORE TOPICS
             page_title = random.choice(random_topics)
             print(f"\nRandomly selected topic: {page_title}\n")
             return page_title
@@ -36,25 +36,6 @@ def get_links_from_wiki(user_input="Nelson Mandela"):
 
     return list(page.links.keys())
 
-'''
-def filter_game_words(links, grid_size, num_words):
-    """
-    Filters the Wikipedia links to include only valid words,
-    shuffles the list, and selects a random subset.
-    """
-    # Convert to lowercase and filter valid links based on criteria
-    valid_links = [link.lower() for link in links if re.match(r"^[A-Za-z]+$", link) and len(link) <= grid_size]
-    
-    if not valid_links:
-        print("No valid words found on the Wikipedia page!")
-        return []
-
-    # Shuffle the valid links to randomize their order
-    random.shuffle(valid_links)
-
-    # Select up to num_words from the shuffled list
-    return valid_links[:num_words]
-'''
 
 def filter_game_words(links, grid_size, num_words):
     """
