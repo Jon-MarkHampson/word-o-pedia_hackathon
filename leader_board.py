@@ -95,7 +95,7 @@ class Leaderboard:
                 # Color code the ranks: Gold for 1st, Silver for 2nd, Bronze for 3rd, default for others
                 rank_color = config.Fore.LIGHTYELLOW_EX if rank == 1 else \
                     config.Fore.WHITE if rank == 2 else \
-                        config.Fore.RED if rank == 3 else \
+                        config.Fore.YELLOW if rank == 3 else \
                             config.Fore.BLUE
 
                 print(

@@ -17,7 +17,6 @@ def main():
     hint_counter = 0
     penalty_counter = 0
     penalty_time = 15
-    leader_board = Leaderboard()  # Create an instance of leaderboard
 
     #Initialise an instance of the SimpleTimer
     timer = terminal_timer.SimpleTimer()
@@ -107,19 +106,11 @@ def main():
         else:
             print(f"\n{config.Fore.RED + user_guess + config.Style.RESET_ALL} isn't one of the words we are looking for.\n")
 
-
+    # Stop timer
     timer.stop()
     
     # Display the final grid
     grid_utils.print_grid(game_grid)
-    # final_time, min, sec = timer.return_elapsed_time()
-
-    # total_time = final_time + penalty_counter
-    # minutes = int(total_time // 60)
-    # seconds = int(total_time % 60)  
-    
-    #End the game and stop the timer
-    # timer.stop()
 
     # Calculate final time including penalty
     total_time = time.time() - timer.start_time + penalty_time
@@ -134,17 +125,13 @@ def main():
     print(f"\nTotal time with penalty: {minutes:02d}:{seconds:02d} (Penalty: {config.Fore.RED}{penalty_counter}{config.Style.RESET_ALL} seconds)")
 
     print(f"\nYou found all {config.Fore.CYAN}{num_words}{config.Style.RESET_ALL} words in: {minutes}:{seconds}")
-    
-    #add username and final time to high score leaderboard?
+
     # Update and display the leaderboard
     leader_board.update_leaderboard(player_name, diff_string, total_time)
     leader_board.display_leaderboard()
     
     print(f"\nThank you {player_name} for playing WORD-O-PEDIA!\n")
     
-
-
-
 
 if __name__ == "__main__":
     main()
