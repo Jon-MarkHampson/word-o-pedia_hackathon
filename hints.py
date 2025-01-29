@@ -111,4 +111,74 @@ def reveal_the_word(word, hint_counter):
             # Return the combined revealed word
             return combined_word
 
-# print(get_hint_about_word("molecule"))
+
+def create_summary_for_how_word_relates_to_topic(word, topic):
+    """
+    Generate a summary about the topic using OpenAI's new chat interface.
+    """
+    get_api_key()
+    print("DEBUG Word gtp: ", word)
+    print("DEBUG Topic gtp: ", topic)
+
+    while True:
+        try:
+            response = openai.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {
+                        "role": "system",
+                        "content": "You are an assistant that summarizes the relation of a keyword to a topic very concisely."
+                    },
+                    {
+                        "role": "user",
+                        "content": f"Summarize how {word} relates to {topic} in a few sentences.",
+                        "temperature": 0.1
+                    }
+                ],
+            )
+
+            # Grab the summary text
+            # chat_gtp_summary = response.choices[0].message.content.strip()
+            chat_gtp_summary = response.message.content.strip()
+            print("DEBUG gtp summaries: ", chat_gtp_summary)
+
+            return chat_gtp_summary
+        except Exception as e:
+            return f"Sorry, couldn't generate a summary for the keyword because: {str(e)}"
+
+def generate_summaries_for_all_game_words(game_words, topic):
+    """
+    Generate a summary for each game word in the list.
+    """
+    print("DEBUG game_words all words: ", game_words)
+    print("DEBUG topic all words: ", topic)
+    summaries = {}
+    for word in game_words:
+        summaries[word] = create_summary_for_how_word_relates_to_topic(word, topic)
+        
+    print(summaries)
+    return summaries
+
+def print_summaries(summaries):
+    """
+    Print the summaries in a formatted way.
+    """
+    colours_counter = 0
+    for word, summary in summaries.items():
+        print(f"\n{config.COLOURS_LIST[colours_counter]}{word}{config.Style.RESET_ALL}:\n{summary}\n")
+        colours_counter += 1
+        
+
+# def print_summaries(summaries):
+#     """
+#     Print the summaries in a formatted way.
+#     """
+#     if not isinstance(summaries, dict):
+#         raise TypeError(f"Expected a dictionary, but got {type(summaries).__name__}")
+
+#     if not summaries:
+#         print("No summaries available.")
+#         return
+
+#     for i, (word, summary) in enumerate(summaries.items()):
+#         print(f"\n{config.COLOURS_LIST[i % len(config.COLOURS_LIST)]}{word}{config.Style.RESET_ALL}:\n{summary}\n")

@@ -54,6 +54,9 @@ def main():
     links = word_utils.get_links_from_wiki(user_topic)
     game_words = word_utils.filter_game_words(links, grid_size, num_words)
     
+    # Create a summary for the user about how the words relate to the topic
+    summaries = hints.generate_summaries_for_all_game_words(game_words, user_topic)
+    hints.print_summaries(summaries)
     # print(f"DEBUG game_wrods: {game_words})")
     
     if not game_words:
@@ -132,6 +135,9 @@ def main():
         print(f"\nThank you {config.Fore.GREEN}{player_name}{config.Style.RESET_ALL} for playing {config.Fore.CYAN}WORD-O-PEDIA!{config.Style.RESET_ALL}\n")
         
         print("Here is a summary about the words we found and how they relate to the topic you chose:\n")
+        
+        # hints.print_summaries(summaries)
+        
 
         end_game = input("Would you like to play again? (Y / N): ").strip().lower()
         if end_game in {"y", "yes", "yeah", "yep"}:

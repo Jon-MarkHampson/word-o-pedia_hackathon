@@ -1,7 +1,8 @@
 import config
 
 def set_difficulty():
-# Print / Select Difficulty
+    # Print / Select Difficulty
+    print("Difficulty Levels:")
     while True:
         print(f"""
 {config.Fore.GREEN}1. Easy
