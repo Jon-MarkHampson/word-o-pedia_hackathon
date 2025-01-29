@@ -85,15 +85,25 @@ class Leaderboard:
 
     def display_leaderboard(self):
         """
-        Displays the leaderboard in a readable format.
+        Displays the leaderboard in a readable format with color-coded difficulties and ranks.
         """
         if not self.leaderboard:
             print(f"\n{config.Fore.YELLOW}No leaderboard data available yet.{config.Style.RESET_ALL}\n")
             return
 
+        # Define colors for different difficulty levels
+        difficulty_colors = {
+            "EASY": config.Fore.GREEN,
+            "MEDIUM": config.Fore.BLUE,
+            "HARD": config.Fore.RED
+        }
+
         print(f"\n{config.Fore.CYAN}=== LEADERBOARD ==={config.Style.RESET_ALL}")
         for difficulty, scores in self.leaderboard.items():
-            print(f"\n{config.Fore.GREEN}Difficulty: {difficulty}{config.Style.RESET_ALL}")
+            # Get appropriate color for difficulty, default to GREEN if not found
+            difficulty_color = difficulty_colors.get(difficulty, config.Fore.GREEN)
+            print(f"\n{difficulty_color}Difficulty: {difficulty}{config.Style.RESET_ALL}")
+
             for rank, entry in enumerate(scores, start=1):
                 minutes, seconds = divmod(entry["time"], 60)
                 # Color code the ranks: Gold for 1st, Silver for 2nd, Bronze for 3rd, default for others
