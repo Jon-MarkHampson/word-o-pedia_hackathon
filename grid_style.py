@@ -10,5 +10,5 @@ def print_grid(grid):
             f"{Fore.GREEN}{cell}{Style.RESET_ALL}" for cell in row
         )
         print(styled_row)
-        print("\n")  # Add spacing for better readability
+        print("\n")  
     print("\n")

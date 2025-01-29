@@ -63,21 +63,15 @@ def get_hint_about_word(word):
             # Grab the summary text
             chat_gtp_summary = response.choices[0].message.content.strip()
             
-            
-            # print("DEBUG: ", summary)
-
             # Split summary at first_word
             word_check = chat_gtp_summary.split(" ", 1)[0].lower()
             hint = chat_gtp_summary.split(" ", 1)[1] if " " in chat_gtp_summary else ""
-            word = word.lower() # Ensure word is lowercase
+            word = word.lower()
             
             if word_check == word:
-                
-                # print(f"DEBUG: Word_check, Word : {word_check} {word}")
-                # print("DEBUG: Hint: ", hint)                
+              
                 # Wrap text to 50 chars
                 wrapped_hint = textwrap.fill(hint, width=70)
-                # print("DEBUG wrapped: ", wrapped_hint)
                 masked_summary = mask_word.mask_word_in_text(wrapped_hint, word)
 
                 return masked_summary
@@ -90,7 +84,6 @@ def reveal_the_word(word, hint_counter):
 
             # The portion to reveal (characters up to hint_counter)
             revealed_part = word[:hint_counter].upper()
-            
 
             # The portion to hide (the rest of the letters)
             to_hide_length = max(0, len(word) - hint_counter)
@@ -104,9 +97,9 @@ def reveal_the_word(word, hint_counter):
             # Combine them
             combined_word = revealed_part_spaced
             if revealed_part_spaced and hidden_part_spaced:
-                combined_word += " "  # space between revealed and hidden
+                # space between revealed and hidden
+                combined_word += " "  
             combined_word += hidden_part_spaced
-
 
             # Return the combined revealed word
             return combined_word
@@ -117,8 +110,6 @@ def create_summary_for_how_word_relates_to_topic(word, topic):
     Generate a summary about the topic using OpenAI's new chat interface.
     """
     get_api_key()
-    print("DEBUG Word gtp: ", word)
-    print("DEBUG Topic gtp: ", topic)
 
     while True:
         try:
@@ -138,47 +129,36 @@ def create_summary_for_how_word_relates_to_topic(word, topic):
             )
 
             # Grab the summary text
-            # chat_gtp_summary = response.choices[0].message.content.strip()
-            chat_gtp_summary = response.message.content.strip()
-            print("DEBUG gtp summaries: ", chat_gtp_summary)
+            chat_gtp_summary = response.choices[0].message.content.strip()
 
             return chat_gtp_summary
         except Exception as e:
             return f"Sorry, couldn't generate a summary for the keyword because: {str(e)}"
 
+
 def generate_summaries_for_all_game_words(game_words, topic):
     """
     Generate a summary for each game word in the list.
     """
-    print("DEBUG game_words all words: ", game_words)
-    print("DEBUG topic all words: ", topic)
+
     summaries = {}
     for word in game_words:
+        word = word.upper()
         summaries[word] = create_summary_for_how_word_relates_to_topic(word, topic)
-        
-    print(summaries)
     return summaries
+
 
 def print_summaries(summaries):
     """
     Print the summaries in a formatted way.
     """
-    colours_counter = 0
-    for word, summary in summaries.items():
-        print(f"\n{config.COLOURS_LIST[colours_counter]}{word}{config.Style.RESET_ALL}:\n{summary}\n")
-        colours_counter += 1
-        
+    if not isinstance(summaries, dict):
+        raise TypeError(f"Expected a dictionary, but got {type(summaries).__name__}")
 
-# def print_summaries(summaries):
-#     """
-#     Print the summaries in a formatted way.
-#     """
-#     if not isinstance(summaries, dict):
-#         raise TypeError(f"Expected a dictionary, but got {type(summaries).__name__}")
+    if not summaries:
+        print("No summaries available.")
+        return
 
-#     if not summaries:
-#         print("No summaries available.")
-#         return
-
-#     for i, (word, summary) in enumerate(summaries.items()):
-#         print(f"\n{config.COLOURS_LIST[i % len(config.COLOURS_LIST)]}{word}{config.Style.RESET_ALL}:\n{summary}\n")
+    for i, (word, summary) in enumerate(summaries.items()):
+        wrapped_summary = textwrap.fill(summary, width=70)
+        print(f"\n{config.COLOURS_LIST[i % len(config.COLOURS_LIST)]}{word}{config.Style.RESET_ALL}:\n{wrapped_summary}\n")

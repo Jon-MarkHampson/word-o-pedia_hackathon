@@ -22,7 +22,7 @@ def get_game_topic():
             return page_title
         else:
             # Prompt user to type in a topic
-            return input("Type in a topic for the word search (e.g., 'Space Exploration'): ").strip()
+            return input("Type in a topic for the word search (e.g., 'Space Exploration'): ").strip().lower()
    
 
 def get_links_from_wiki(user_input="Nelson Mandela"):

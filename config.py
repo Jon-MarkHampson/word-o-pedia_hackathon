@@ -12,7 +12,7 @@ HARD = (15, 10, "HARD")
 WIKI_LANGUAGE = "en"
 
 # Colour constants
-COLOURS_LIST = [Fore.MAGENTA, Fore.GREEN, Fore.BLUE, Fore.RED, Fore.CYAN, Fore.LIGHTMAGENTA_EX, Fore.LIGHTGREEN_EX, Fore.LIGHTBLUE_EX, Fore.LIGHTRED_EX, Fore.LIGHTYELLOW_EX, Fore.LIGHTCYAN_EX]
+COLOURS_LIST = [Fore.MAGENTA, Fore.GREEN, Fore.BLUE, Fore.LIGHTRED_EX, Fore.CYAN, Fore.LIGHTMAGENTA_EX, Fore.LIGHTGREEN_EX, Fore.LIGHTBLUE_EX, Fore.RED, Fore.LIGHTYELLOW_EX, Fore.LIGHTCYAN_EX]
 
 # Funny responses for found words
 funny_positive_responses = [
@@ -42,14 +42,14 @@ funny_negative_responses_prefix = [
 ]
 
 funny_negative_responses_suffix = [
-    "Stay positive, you've got this!"
-    "Maybe ask for a hint!",
-    "You're learning—keep going!",
+    "Stay positive, you've got this!",
+    "Maybe ask for a hint?!",
+    "You're learning — keep going!",
     "You can do it!",
     "Don't give up!",
     "Take a deep breath and try again!",
     "I believe in you!",
-    "Maybe ask for a hint!",
+    "Don't quit now!",
     "Stay determined!",
     "Keep pushing forward!"
 ]

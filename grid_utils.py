@@ -14,18 +14,22 @@ def try_place_word(grid, word, row, col, horizontal, reverse):
     """
     length = len(word)
     if reverse:
-        word = word[::-1]  # Reverse the word if needed
+        # Reverse the word if needed
+        word = word[::-1]  
 
     if horizontal:
-        if col + length > len(grid[0]):  # Check horizontal bounds
+        # Check horizontal bounds
+        if col + length > len(grid[0]):  
             return False
         for i in range(length):
             if grid[row][col + i] not in ("*", word[i]):
                 return False
         for i in range(length):
             grid[row][col + i] = word[i]
-    else:  # Vertical
-        if row + length > len(grid):  # Check vertical bounds
+    # Vertical
+    else:  
+        # Check vertical bounds
+        if row + length > len(grid): 
             return False
         for i in range(length):
             if grid[row + i][col] not in ("*", word[i]):
@@ -35,16 +39,58 @@ def try_place_word(grid, word, row, col, horizontal, reverse):
     
     return True
 
-def place_words_on_grid(grid, words):
-    """Places words randomly on the grid, allowing reverse placement."""
-    grid_size = len(grid)
-    words_positions = {}  # Dictionary to store the placed coordinates
+# def place_words_on_grid(grid, words):
+#     """Places words randomly on the grid, allowing reverse placement."""
+#     grid_size = len(grid)
+    
+#     # Dictionary to store the placed coordinates
+#     words_positions = {}  
+    
+#     # Place longer words first
+#     for word in sorted(words, key=len, reverse=True):
+#         word = word.upper()
+#         placed = False
 
-    for word in sorted(words, key=len, reverse=True):  # Place longer words first
+#     # Try up to 1000 times for each word
+#     unplaced_words = []
+#     for _ in range(1000):
+#         row = random.randint(0, grid_size - 1)
+#         col = random.randint(0, grid_size - 1)
+#         horizontal = random.choice([True, False])
+#         reverse = random.choice([True, False])
+
+#         # Try placing the word
+#         if try_place_word(grid, word, row, col, horizontal, reverse):
+#             # Store the coordinates of the placed word
+#             coordinates = []  
+#             length = len(word)
+#             if horizontal:
+#                 for i in range(length):
+#                     coordinates.append((row, col + i))
+#             # Vertical
+#             else: 
+#                 for i in range(length):
+#                     coordinates.append((row + i, col))
+
+#             words_positions[word] = coordinates
+#             placed = True
+#             break
+    
+
+def place_words_on_grid(grid, words):
+    #Places words randomly on the grid, allowing reverse placement.
+    grid_size = len(grid)
+    # Dictionary to store the placed coordinates
+    words_positions = {}  
+
+    # Place longer words first
+    for word in sorted(words, key=len, reverse=True):  
         word = word.upper()
         placed = False
 
-        for _ in range(100):  # Try up to 100 times for each word
+        unplaced_words = []
+        # Try up to 100 times for each word
+        for _ in range(1000):  
             row = random.randint(0, grid_size - 1)
             col = random.randint(0, grid_size - 1)
             horizontal = random.choice([True, False])
@@ -52,7 +98,8 @@ def place_words_on_grid(grid, words):
 
             # Try placing the word
             if try_place_word(grid, word, row, col, horizontal, reverse):
-                coordinates = []  # Store the coordinates of the placed word
+                # Store the coordinates of the placed word
+                coordinates = []  
                 length = len(word)
                 if horizontal:
                     for i in range(length):
@@ -66,9 +113,18 @@ def place_words_on_grid(grid, words):
                 break
 
         if not placed:
-            print(f"Warning: Could not place the word '{word}' on the grid.")
+            unplaced_words.append(word)
 
-    return grid, words_positions  # Return the updated grid and word positions
+    # Return the updated grid and word positions
+    return grid, words_positions, unplaced_words 
+
+
+    # unplaced_words = [word for word in words if word not in words_positions]       
+    # if not unplaced_words:
+    #     unplaced_words = []
+
+    # Return the updated grid and word positions
+    return grid, words_positions, unplaced_words
 
 def fill_placeholders_with_random_letters(grid):
     """Replaces all '*' placeholders in the grid with random letters."""
@@ -88,9 +144,9 @@ def print_grid(grid):
 def initialise_game_grid(grid_size, words):
     """Initialises the game grid with words placed randomly."""
     grid = fill_grid_with_placeholders(grid_size)
-    grid, words_positions = place_words_on_grid(grid, words)
-    # grid = fill_placeholders_with_random_letters(grid)
-    return grid, words_positions
+    grid, words_positions, unplaced_words = place_words_on_grid(grid, words)
+    grid = fill_placeholders_with_random_letters(grid)
+    return grid, words_positions, unplaced_words
 
 def update_game_grid(grid, word, colours_counter, words_positions):
     """Highlights a word on the grid by colouring its letters."""
@@ -105,16 +161,3 @@ def update_game_grid(grid, word, colours_counter, words_positions):
         grid[r][c] = (config.COLOURS_LIST[colours_counter] + plain_char + Style.RESET_ALL)
 
     return grid
-
-# Example usage:
-if __name__ == "__main__":
-    grid_size = 10
-    words = ["PYTHON", "GAME", "CODE", "SEARCH", "GRID", "WORD"]
-
-    grid, words_positions = initialise_game_grid(grid_size, words)
-    print_grid(grid)
-
-    # Example of highlighting a word
-    colours_counter = 0
-    update_game_grid(grid, "PYTHON", colours_counter, words_positions)
-    print_grid(grid)

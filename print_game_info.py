@@ -1,11 +1,6 @@
 """ Print the Title of the Game and the Difficulty and the Descriptiomn of the Game """
 import config
 
-# print(Fore.RED + "This text is red!" + Style.RESET_ALL)
-# COLOURS_LIST = [Fore.RED, Fore.GREEN, Fore.YELLOW, Fore.BLUE, Fore.MAGENTA, Fore.CYAN, Fore.WHITE]
-# {config.Fore.RED}{penalty_counter}{config.Style.RESET_ALL}
-
-
 def print_game_info():
     print(f"""
     
@@ -40,20 +35,19 @@ def print_game_info():
     GAME DESCRIPTION:{config.Style.RESET_ALL}    
     {config.Fore.LIGHTYELLOW_EX}
     * This is a word search game based on Wikipedia which helps you learn about various topics as you play :)
-    * Words are taken from a Wikipedia article on a topic of your choice or randomly
-    * A character matrix hides the words
-    * You can choose the size of matrix (the level of difficulty)
-    * Correctly found words will be color highlighted
-    * The words can be displayed either HORIZONTAL, VERTICAL or BACKWARDS (for both) 
-    * Leaderboard: all words found in fastest time{config.Style.RESET_ALL}
+    * Words are taken from a Wikipedia article on a topic of your choice or randomly.
+    * A grid of letters hides the words.
+    * You can choose the diffuculty which will set the size of the game and the number of words to find.
+    * Correctly found words will be color highlighted.
+    * The words can be displayed either HORIZONTAL, VERTICAL or BACKWARDS (for both). 
+    * Leaderboard: All words found in fastest time.{config.Style.RESET_ALL}
     
     {config.Fore.CYAN}
     GAME RULES:{config.Style.RESET_ALL}  
     {config.Fore.LIGHTYELLOW_EX}
-    * Keep on guessing and typing words until you find all the correct words
-    * Choice of getting a hint
-    * You can also type "hint" if you missed the choice and feel lost
+    * Keep on guessing and typing words until you find all the correct words.
     * You have a timer - to make it more competitive ;)
-    * You get a 15 sec penalty for every hint
-    * Game stops when all words are found
+    * You can type "hint" if you feel lost.
+    * You get a 15 sec penalty for every hint.
+    * Game stops when all words are found.
 {config.Style.RESET_ALL}""")

@@ -48,7 +48,8 @@ class Leaderboard:
         # Check if the name already exists in the difficulty
         for entry in self.leaderboard[difficulty]:
             if entry["name"] == name:
-                old_time = entry["time"]  # Store previous time for comparison
+                # Store previous time for comparison
+                old_time = entry["time"]  
                 old_minutes, old_seconds = divmod(old_time, 60)
                 new_minutes, new_seconds = divmod(final_time, 60)
 
@@ -81,7 +82,8 @@ class Leaderboard:
 
         # Sort before save
         self.leaderboard[difficulty].sort(key=lambda x: x["time"])
-        self._save_leaderboard()  # Save only when updating
+        # Save only when updating
+        self._save_leaderboard()  
 
     def display_leaderboard(self):
         """
@@ -95,7 +97,7 @@ class Leaderboard:
         difficulty_colors = {
             "EASY": config.Fore.GREEN,
             "MEDIUM": config.Fore.BLUE,
-            "HARD": config.Fore.RED
+            "HARD": config.Fore.LIGHTRED_EX
         }
 
         print(f"\n{config.Fore.CYAN}=== LEADERBOARD ==={config.Style.RESET_ALL}")
@@ -109,7 +111,7 @@ class Leaderboard:
                 # Color code the ranks: Gold for 1st, Silver for 2nd, Bronze for 3rd, default for others
                 rank_color = config.Fore.LIGHTYELLOW_EX if rank == 1 else \
                     config.Fore.WHITE if rank == 2 else \
-                        config.Fore.YELLOW if rank == 3 else \
+                        config.Fore.RED if rank == 3 else \
                             config.Fore.BLUE
 
                 print(
