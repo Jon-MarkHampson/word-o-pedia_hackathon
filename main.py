@@ -133,7 +133,9 @@ def main():
     print(f"\nYou found all {config.Fore.CYAN}{num_words}{config.Style.RESET_ALL} words in: {minutes}:{seconds}")
     
     #add username and final time to high score leaderboard?
+    print(total_time) # THIS IS JST FOR DEBUGGING
     leader_board.update_leaderboard(player_name, diff_string, total_time)
+    leader_board.display_leaderboard()
     
     print(f"\nThank you {player_name} for playing WORD-O-PEDIA!\n")
     
