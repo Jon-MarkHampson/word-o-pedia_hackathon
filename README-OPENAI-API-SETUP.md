@@ -108,4 +108,4 @@ If everything is set up correctly, you should see a response from OpenAI.
 - Install requirements from the provided `requirements.txt` file.
 - Use your API key responsibly to interact with OpenAI's services.
 
-With this setup, you’re ready to build amazing projects using OpenAI’s API! Happy coding!
+With this setup, you’re ready to run WORD-O-PEDIA and additionally, you know know how to build projects using OpenAI’s API! Happy coding!
