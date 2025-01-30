@@ -138,7 +138,7 @@ def print_grid(grid):
     """Prints the grid with tabs between letters for better readability."""
     print("\n")
     for row in grid:
-        print("\t".join(row) + "\n" * 2)
+        print("    ".join(row) + "\n")
     print("\n")
 
 def initialise_game_grid(grid_size, words):
