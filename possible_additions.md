@@ -2,6 +2,10 @@
 
 ## Add Player prompt for player name at the start. 
 
+## Game Display & Formatting
+- ~~using ANSI escape codes to ensure the grid, hints etc always display in the same place.~~
+- Improve formatting of the Leaderboard
+
 ## General Improvements
 - ~~If `colour_counter == len(COLOUR_LIST)`, reset `colour_counter = 0`.~~
 - Update ChatGPT call to ensure the word only appears at the front and only appears once.

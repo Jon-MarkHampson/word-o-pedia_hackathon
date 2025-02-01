@@ -39,43 +39,6 @@ def try_place_word(grid, word, row, col, horizontal, reverse):
     
     return True
 
-# def place_words_on_grid(grid, words):
-#     """Places words randomly on the grid, allowing reverse placement."""
-#     grid_size = len(grid)
-    
-#     # Dictionary to store the placed coordinates
-#     words_positions = {}  
-    
-#     # Place longer words first
-#     for word in sorted(words, key=len, reverse=True):
-#         word = word.upper()
-#         placed = False
-
-#     # Try up to 1000 times for each word
-#     unplaced_words = []
-#     for _ in range(1000):
-#         row = random.randint(0, grid_size - 1)
-#         col = random.randint(0, grid_size - 1)
-#         horizontal = random.choice([True, False])
-#         reverse = random.choice([True, False])
-
-#         # Try placing the word
-#         if try_place_word(grid, word, row, col, horizontal, reverse):
-#             # Store the coordinates of the placed word
-#             coordinates = []  
-#             length = len(word)
-#             if horizontal:
-#                 for i in range(length):
-#                     coordinates.append((row, col + i))
-#             # Vertical
-#             else: 
-#                 for i in range(length):
-#                     coordinates.append((row + i, col))
-
-#             words_positions[word] = coordinates
-#             placed = True
-#             break
-    
 
 def place_words_on_grid(grid, words):
     #Places words randomly on the grid, allowing reverse placement.
@@ -161,3 +124,7 @@ def update_game_grid(grid, word, colours_counter, words_positions):
         grid[r][c] = (config.COLOURS_LIST[colours_counter] + plain_char + Style.RESET_ALL)
 
     return grid
+
+def clear_screen():
+    """Clears the terminal screen."""
+    print("\033[H\033[J")
